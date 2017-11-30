@@ -5,7 +5,8 @@ import axios from 'axios'
 class App extends Component {
 
   state = {
-    pets: ['Zazzles', 'Muffin Boots', 'Snugglelumps']
+    pets: [],
+    owners: []
   }
 
   render() {
@@ -15,6 +16,9 @@ class App extends Component {
         {
           this.state.pets.map(pet => <p>{pet}</p>)
         }
+        {
+          this.state.owners.map(owner => <p>{owner}</p>)
+        }
       </div>
     );
   }
@@ -22,15 +26,29 @@ class App extends Component {
   componentDidMount() {
 
     axios.get('/api/pets')
-      .then(function (response) {
+      .then((response) => {
+        this.setState( {
+          pets: response.data
+        })
         console.log('Getting response!')
         console.log(response);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log('Whoops')
         console.log(error);
       });
-
+    axios.get('/api/owners')
+      .then((response) => {
+        this.setState( {
+          owners: response.data
+        })
+        console.log('Getting response!')
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log('Whoops!')
+        console.log(error);
+      })
   }
 
 }
